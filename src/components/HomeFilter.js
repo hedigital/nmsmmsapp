@@ -1,5 +1,12 @@
 /* eslint-disable prettier/prettier */
-import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  TextInput,
+  Pressable,
+} from 'react-native';
 import React, {useState} from 'react';
 import DropDown from './DropDown';
 import CalenderComponent from './Calender';
@@ -42,8 +49,8 @@ const HomeFilter = () => {
   const [status, setStatus] = useState('');
 
   return (
-    <View className="mt-3 space-y-2">
-      <View className="flex-row justify-between px-2">
+    <View className="space-y-2 bg-gray-400/10 p-2">
+      <View className="flex-row justify-between">
         <View className="basis-[24%]">
           <DropDown
             open={open}
@@ -85,7 +92,7 @@ const HomeFilter = () => {
         </View>
       </View>
 
-      <View className="flex-row justify-between px-2">
+      <View className="flex-row justify-between">
         <View className="basis-[24%]">
           <CustomDropDown
             placeholder={isLocationCorrect || 'লোকেশন সঠিক?'}
@@ -105,19 +112,28 @@ const HomeFilter = () => {
         </View>
 
         <View className="basis-[24%]">
-          <CalenderComponent
-            placeholder={startDate ? startDate : 'শুরু তারিখ'}
-            date={startDate}
-            setDate={setStartDate}
+          <TextInput
+            placeholderTextColor="#374151"
+            className="border px-3 border-gray-500 rounded-lg text-gray-700  bg-white"
+            placeholder="Outlet Code"
           />
         </View>
 
         <View className="basis-[24%]">
-          <CalenderComponent
-            placeholder={endDate ? endDate : 'শেষ তারিখ'}
-            date={endDate}
-            setDate={setEndDate}
-          />
+          <Pressable
+            className="bg-yellow-500 rounded-lg px-3 h-[50px] items-center justify-center"
+            android_ripple={{color: '#ca8a04', borderless: false}}>
+            <View className="flex-row w-full justify-center items-center">
+              <Image
+                source={require('../assets/search.png')}
+                resizeMode="contain"
+                className="w-[22px] mr-3"
+              />
+              <Text className="text-center text-white text-lg font-semibold">
+                খুঁজুন
+              </Text>
+            </View>
+          </Pressable>
         </View>
       </View>
     </View>
