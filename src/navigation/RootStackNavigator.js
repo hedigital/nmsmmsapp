@@ -6,6 +6,7 @@ import {Provider} from 'react-redux';
 import Login from '../screens/Login';
 import {Image, StatusBar, TouchableOpacity, View} from 'react-native';
 import Home from '../screens/Home';
+import Dashboard from '../components/Dashboard';
 
 export default function RootStackNavigator() {
   const Stack = createNativeStackNavigator();
@@ -17,6 +18,27 @@ export default function RootStackNavigator() {
         <Stack.Screen
           name="OutletDetails"
           component={Home}
+          options={{
+            title: 'NMSM',
+            headerStyle: {
+              backgroundColor: '#eab308',
+            },
+            headerTintColor: '#fff',
+            headerRight: () => (
+              <View>
+                <TouchableOpacity>
+                  <Image
+                    className="w-8 h-8"
+                    source={require('../assets/logout.png')}
+                  />
+                </TouchableOpacity>
+              </View>
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="Dashboard"
+          component={Dashboard}
           options={{
             title: 'NMSM',
             headerStyle: {

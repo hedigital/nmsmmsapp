@@ -1,10 +1,10 @@
 /* eslint-disable prettier/prettier */
 import {configureStore} from '@reduxjs/toolkit';
-import testCount from '../features/testCount';
+import callTypeSlice from '../features/callTypeSlice';
 
 const store = configureStore({
   reducer: {
-    count: testCount,
+    callType: callTypeSlice,
   },
   devTools: process.env.NODE_ENV !== 'production',
 });

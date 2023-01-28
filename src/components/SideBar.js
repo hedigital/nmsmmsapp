@@ -2,8 +2,11 @@
 import {View, Text, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import {FlatList} from 'react-native';
+import {useDispatch} from 'react-redux';
+import {setCallType} from '../redux/features/callTypeSlice';
 
-const SideBar = () => {
+const SideBar = ({setDashboardActive}) => {
+  const dispatch = useDispatch();
   const [active, setActive] = useState(1);
   const [NavData, setNavData] = useState([
     {
@@ -19,6 +22,22 @@ const SideBar = () => {
       title: 'সারসংক্ষেপ',
     },
   ]);
+
+  const changeNavItem = v => {
+    setActive(v);
+    if (v === 1) {
+      dispatch(setCallType('marketVisitCall'));
+      setDashboardActive(false);
+    }
+    if (v === 2) {
+      dispatch(setCallType('virtualCall'));
+      setDashboardActive(false);
+    }
+    if (v === 3) {
+      setDashboardActive(true);
+    }
+  };
+
   return (
     <View className="h-full w-full bg-gray-800">
       <View className="px-2 mt-3">
@@ -27,7 +46,7 @@ const SideBar = () => {
           keyExtractor={item => item.key + item.title}
           renderItem={({item}) => (
             <TouchableOpacity
-              onPress={() => setActive(item.key)}
+              onPress={() => changeNavItem(item.key)}
               className={`px-1 py-3 ${
                 active === item.key ? 'bg-yellow-500' : 'bg-white'
               } rounded mt-3`}>

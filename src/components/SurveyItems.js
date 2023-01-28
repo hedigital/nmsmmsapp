@@ -16,10 +16,16 @@ import MerchandisingPresence from './MerchandisingPresence';
 import MerchandisingOpportunity from './MerchandisingOpportunity';
 import PmmMaintenance from './PmmMaintenance';
 import DropDown from './DropDown';
+import {useSelector, useDispatch} from 'react-redux';
 
 const SurveyItems = () => {
   const [imageModalVisible, setImageModalVisible] = useState(false);
   const [modalImageUrl, setModalImageUrl] = useState('');
+
+  const dispatch = useDispatch();
+
+  // redux store data
+  const {callType} = useSelector(state => state.callType);
 
   const [expandContent, setExpandContent] = useState('');
 
@@ -69,29 +75,32 @@ const SurveyItems = () => {
         animationType="slide"
         hardwareAccelerated
         onRequestClose={() => setVisibleEvaluationModal(false)}>
-        <View className="flex-1 justify-center items-center bg-gray-900/50">
-          <StatusBar backgroundColor="#85680c" />
-          <View className="w-[600px] h-[320px] bg-white rounded-lg p-3 justify-between">
+        <View className="flex-1 justify-center items-center bg-gray-900/80">
+          <StatusBar backgroundColor="#433505" />
+          <View
+            className={'w-[600px]  bg-white rounded-lg p-3 justify-between'}>
             <View className="space-y-2">
-              <View
-                className="flex-row justify-between items-center"
-                style={{zIndex: 100}}>
-                <Text className="text-xl text-gray-700 font-semibold">
-                  সি এম কি সঠিক আউটলেটে জরিপ করেছে?
-                </Text>
-                <DropDown
-                  open={locationCorrectDropdownOpen}
-                  value={isLocationCorrect}
-                  items={locationCorrectItems}
-                  setItems={setLocationCorrectItems}
-                  setValue={setIsLocationCorrect}
-                  placeholder="Select"
-                  setOpen={setLocationCorrectDropdownOpen}
-                  modalType="SCROLLVIEW"
-                  search={false}
-                  isWidth={true}
-                />
-              </View>
+              {callType === 'marketVisitCall' ? (
+                <View
+                  className="flex-row justify-between items-center"
+                  style={{zIndex: 100}}>
+                  <Text className="text-xl text-gray-700 font-semibold">
+                    সি এম কি সঠিক আউটলেটে জরিপ করেছে?
+                  </Text>
+                  <DropDown
+                    open={locationCorrectDropdownOpen}
+                    value={isLocationCorrect}
+                    items={locationCorrectItems}
+                    setItems={setLocationCorrectItems}
+                    setValue={setIsLocationCorrect}
+                    placeholder="Select"
+                    setOpen={setLocationCorrectDropdownOpen}
+                    modalType="SCROLLVIEW"
+                    search={false}
+                    isWidth={true}
+                  />
+                </View>
+              ) : null}
               <View
                 className="flex-row justify-between items-center"
                 style={{zIndex: 50}}>
@@ -149,8 +158,26 @@ const SurveyItems = () => {
               </View>
             </View>
 
-            <View className="w-48 mx-auto">
-              <Button title="Testing..." />
+            <View
+              className={`flex-row mt-8 w-[50%] mx-auto justify-${
+                callType === 'virtualCall' ? 'between' : 'center'
+              }`}>
+              {callType === 'virtualCall' ? (
+                <Pressable>
+                  <View className="bg-yellow-500 rounded px-4 py-2">
+                    <Text className="font-semibold text-lg text-white">
+                      পুনরায় বরাদ্দ
+                    </Text>
+                  </View>
+                </Pressable>
+              ) : null}
+              <Pressable>
+                <View className="bg-yellow-500 rounded px-4 py-2">
+                  <Text className="font-semibold text-lg text-white">
+                    সাবমিট/এডিট
+                  </Text>
+                </View>
+              </Pressable>
             </View>
           </View>
         </View>
