@@ -10,6 +10,10 @@ const DropDown = ({
   setValue,
   setItems,
   placeholder,
+  modalType,
+  search,
+  isWidth,
+  zIndex,
 }) => {
   return (
     <DropDownPicker
@@ -21,10 +25,11 @@ const DropDown = ({
       setItems={setItems}
       placeholder={placeholder}
       autoScroll
-      listMode="MODAL"
-      searchable={true}
+      listMode={modalType}
+      searchable={search}
       searchPlaceholder="Search..."
-      style={{borderColor: 'gray'}}
+      style={{borderColor: 'gray', width: isWidth ? 120 : '100%'}}
+      containerStyle={{width: isWidth ? 120 : '100%'}}
       searchContainerStyle={{
         borderBottomColor: '#dfdfdf',
       }}

@@ -54,24 +54,28 @@ const HomeFilter = () => {
         <View className="basis-[24%]">
           <DropDown
             open={open}
+            modalType="MODAL"
             value={value}
             items={items}
             setOpen={setOpen}
             setValue={setValue}
             setItems={setItems}
             placeholder="পয়েন্ট"
+            search={true}
           />
         </View>
 
         <View className="basis-[24%]">
           <DropDown
             open={open}
+            modalType="MODAL"
             value={value}
             items={items}
             setOpen={setOpen}
             setValue={setValue}
             setItems={setItems}
             placeholder="সি এম নেম"
+            search={true}
           />
         </View>
 

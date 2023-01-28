@@ -8,12 +8,14 @@ import {
   TouchableHighlight,
   Pressable,
   Modal,
+  StatusBar,
 } from 'react-native';
 import React, {useState} from 'react';
 import {Image} from 'react-native';
 import MerchandisingPresence from './MerchandisingPresence';
 import MerchandisingOpportunity from './MerchandisingOpportunity';
 import PmmMaintenance from './PmmMaintenance';
+import DropDown from './DropDown';
 
 const SurveyItems = () => {
   const [imageModalVisible, setImageModalVisible] = useState(false);
@@ -35,8 +37,128 @@ const SurveyItems = () => {
     return content;
   }
 
+  // evaluation modal
+  const [visibleEvaluationModal, setVisibleEvaluationModal] = useState(false);
+
+  const [locationCorrectDropdownOpen, setLocationCorrectDropdownOpen] =
+    useState(false);
+  const [presenceCorrectDropdownOpen, setPresenceCorrectDropdownOpen] =
+    useState(false);
+  const [
+    opportunityCorrectCorrectDropdownOpen,
+    setOpportunityCorrectCorrectDropdownOpen,
+  ] = useState(false);
+  const [maintenanceCorrectDropdownOpen, setMaintenanceCorrectDropdownOpen] =
+    useState(false);
+
+  const [locationCorrectItems, setLocationCorrectItems] = useState([
+    {label: 'Yes', value: 'yes'},
+    {label: 'No', value: 'no'},
+  ]);
+  const [isLocationCorrect, setIsLocationCorrect] = useState(null);
+  const [isPresenceCorrect, setIsPresenceCorrect] = useState(null);
+  const [isOpportunityCorrect, setIsOpportunityCorrect] = useState(null);
+  const [isMaintenanceCorrect, setIsMaintenanceCorrect] = useState(null);
+
   return (
     <View className="bg-white rounded p-1 mb-1">
+      {/* evaluation modal start */}
+      <Modal
+        visible={visibleEvaluationModal}
+        transparent
+        animationType="slide"
+        hardwareAccelerated
+        onRequestClose={() => setVisibleEvaluationModal(false)}>
+        <View className="flex-1 justify-center items-center bg-gray-900/50">
+          <StatusBar backgroundColor="#85680c" />
+          <View className="w-[600px] h-[320px] bg-white rounded-lg p-3 justify-between">
+            <View className="space-y-2">
+              <View
+                className="flex-row justify-between items-center"
+                style={{zIndex: 100}}>
+                <Text className="text-xl text-gray-700 font-semibold">
+                  সি এম কি সঠিক আউটলেটে জরিপ করেছে?
+                </Text>
+                <DropDown
+                  open={locationCorrectDropdownOpen}
+                  value={isLocationCorrect}
+                  items={locationCorrectItems}
+                  setItems={setLocationCorrectItems}
+                  setValue={setIsLocationCorrect}
+                  placeholder="Select"
+                  setOpen={setLocationCorrectDropdownOpen}
+                  modalType="SCROLLVIEW"
+                  search={false}
+                  isWidth={true}
+                />
+              </View>
+              <View
+                className="flex-row justify-between items-center"
+                style={{zIndex: 50}}>
+                <Text className="text-xl text-gray-700 font-semibold">
+                  জরিপে আউটলেট এ উপস্থিতি সকল তথ্য কি সঠিক?
+                </Text>
+                <DropDown
+                  open={presenceCorrectDropdownOpen}
+                  value={isPresenceCorrect}
+                  items={locationCorrectItems}
+                  setItems={setLocationCorrectItems}
+                  setValue={setIsPresenceCorrect}
+                  placeholder="Select"
+                  setOpen={setPresenceCorrectDropdownOpen}
+                  modalType="SCROLLVIEW"
+                  search={false}
+                  isWidth={true}
+                />
+              </View>
+              <View
+                className="flex-row justify-between items-center"
+                style={{zIndex: 40}}>
+                <Text className="text-xl text-gray-700 font-semibold">
+                  জরিপে আউটলেট সুযোগ এর সকল তথ্য কি সঠিক?
+                </Text>
+                <DropDown
+                  open={opportunityCorrectCorrectDropdownOpen}
+                  value={isOpportunityCorrect}
+                  items={locationCorrectItems}
+                  setItems={setLocationCorrectItems}
+                  setValue={setIsOpportunityCorrect}
+                  placeholder="Select"
+                  setOpen={setOpportunityCorrectCorrectDropdownOpen}
+                  modalType="SCROLLVIEW"
+                  search={false}
+                  isWidth={true}
+                />
+              </View>
+              <View className="flex-row justify-between items-center">
+                <Text className="text-xl text-gray-700 font-semibold">
+                  সি এম রক্ষণাবেক্ষনর এর তথ্য কি সঠিক?
+                </Text>
+                <DropDown
+                  open={maintenanceCorrectDropdownOpen}
+                  value={isMaintenanceCorrect}
+                  items={locationCorrectItems}
+                  setItems={setLocationCorrectItems}
+                  setValue={setIsMaintenanceCorrect}
+                  placeholder="Select"
+                  setOpen={setMaintenanceCorrectDropdownOpen}
+                  modalType="SCROLLVIEW"
+                  search={false}
+                  isWidth={true}
+                />
+              </View>
+            </View>
+
+            <View className="w-48 mx-auto">
+              <Button title="Testing..." />
+            </View>
+          </View>
+        </View>
+      </Modal>
+      {/* evaluation modal end */}
+
+      {/* image view modal start */}
+      {/* image view modal end */}
       <Modal
         visible={imageModalVisible}
         transparent
@@ -44,6 +166,10 @@ const SurveyItems = () => {
         hardwareAccelerated
         onRequestClose={() => setImageModalVisible(false)}>
         <View className="flex-1 justify-center items-center bg-gray-900/50">
+          <StatusBar backgroundColor="#85680c" />
+          <Text className="text-lg p-1 text-white font-semibold">
+            Image Name
+          </Text>
           <View className="w-[450px] h-[400px] bg-white rounded-lg">
             <Image
               source={{uri: modalImageUrl}}
@@ -53,6 +179,7 @@ const SurveyItems = () => {
           </View>
         </View>
       </Modal>
+      {/* image view modal end */}
       <View className="flex-row justify-between">
         <View className="basis-1/3">
           <View className="flex-row items-center">
@@ -116,6 +243,7 @@ const SurveyItems = () => {
           <View>
             <View className="flex-row justify-end">
               <Pressable
+                onPress={() => setVisibleEvaluationModal(true)}
                 className="bg-yellow-500 rounded items-center justify-center py-[1px]"
                 android_ripple={{color: '#ca8a04', borderless: false}}>
                 <View className="flex-row w-full justify-center items-center">
