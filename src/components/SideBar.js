@@ -1,13 +1,17 @@
 /* eslint-disable prettier/prettier */
 import {View, Text, TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FlatList} from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {setCallType} from '../redux/features/callTypeSlice';
+
+let time;
 
 const SideBar = ({setDashboardActive}) => {
   const dispatch = useDispatch();
+  const {callType} = useSelector(state => state.callType);
   const [active, setActive] = useState(1);
+
   const [NavData, setNavData] = useState([
     {
       key: 1,
@@ -24,6 +28,8 @@ const SideBar = ({setDashboardActive}) => {
   ]);
 
   const changeNavItem = v => {
+    time = new Date().getTime();
+
     setActive(v);
     if (v === 1) {
       dispatch(setCallType('marketVisitCall'));
@@ -37,6 +43,10 @@ const SideBar = ({setDashboardActive}) => {
       setDashboardActive(true);
     }
   };
+
+  useEffect(() => {
+    console.log(new Date().getTime() - time);
+  }, [callType]);
 
   return (
     <View className="h-full w-full bg-gray-800">
