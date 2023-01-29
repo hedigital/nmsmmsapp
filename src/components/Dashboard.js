@@ -1,5 +1,11 @@
 /* eslint-disable prettier/prettier */
-import {View, Text, FlatList, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  ScrollView,
+  ActivityIndicator,
+} from 'react-native';
 import React, {useState} from 'react';
 
 const Dashboard = () => {

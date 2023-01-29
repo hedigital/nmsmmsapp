@@ -7,6 +7,7 @@ import Login from '../screens/Login';
 import {Image, StatusBar, TouchableOpacity, View} from 'react-native';
 import Home from '../screens/Home';
 import Dashboard from '../components/Dashboard';
+import Edit from '../screens/Edit';
 
 export default function RootStackNavigator() {
   const Stack = createNativeStackNavigator();
@@ -55,6 +56,17 @@ export default function RootStackNavigator() {
                 </TouchableOpacity>
               </View>
             ),
+          }}
+        />
+        <Stack.Screen
+          name="Edit"
+          component={Edit}
+          options={{
+            title: 'NMSM',
+            headerStyle: {
+              backgroundColor: '#eab308',
+            },
+            headerTintColor: '#fff',
           }}
         />
         <Stack.Screen

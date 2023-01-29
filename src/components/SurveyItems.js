@@ -17,10 +17,13 @@ import MerchandisingOpportunity from './MerchandisingOpportunity';
 import PmmMaintenance from './PmmMaintenance';
 import DropDown from './DropDown';
 import {useSelector, useDispatch} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 
 const SurveyItems = () => {
   const [imageModalVisible, setImageModalVisible] = useState(false);
   const [modalImageUrl, setModalImageUrl] = useState('');
+
+  const navigate = useNavigation();
 
   const dispatch = useDispatch();
 
@@ -163,7 +166,8 @@ const SurveyItems = () => {
                 callType === 'virtualCall' ? 'between' : 'center'
               }`}>
               {callType === 'virtualCall' ? (
-                <Pressable>
+                <Pressable
+                  android_ripple={{color: '#ca8a04', borderless: false}}>
                   <View className="bg-yellow-500 rounded px-4 py-2">
                     <Text className="font-semibold text-lg text-white">
                       পুনরায় বরাদ্দ
@@ -171,7 +175,12 @@ const SurveyItems = () => {
                   </View>
                 </Pressable>
               ) : null}
-              <Pressable>
+              <Pressable
+                onPress={() => {
+                  setVisibleEvaluationModal(false);
+                  navigate.navigate('Edit');
+                }}
+                android_ripple={{color: '#ca8a04', borderless: false}}>
                 <View className="bg-yellow-500 rounded px-4 py-2">
                   <Text className="font-semibold text-lg text-white">
                     সাবমিট/এডিট

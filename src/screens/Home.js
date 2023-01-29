@@ -9,12 +9,17 @@ import Dashboard from '../components/Dashboard';
 
 const Home = () => {
   const [dashboardActive, setDashboardActive] = useState(false);
+  const [loading, setLoading] = useState(false);
   return (
     <View className="">
       <View className="flex-row">
         {/* sidebar start */}
         <View className="basis-[18%]">
-          <SideBar setDashboardActive={setDashboardActive} />
+          <SideBar
+            setLoading={setLoading}
+            dashboardActive={dashboardActive}
+            setDashboardActive={setDashboardActive}
+          />
         </View>
         {/* sidebar end */}
 

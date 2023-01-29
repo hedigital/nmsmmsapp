@@ -5,8 +5,6 @@ import {FlatList} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {setCallType} from '../redux/features/callTypeSlice';
 
-let time;
-
 const SideBar = ({setDashboardActive}) => {
   const dispatch = useDispatch();
   const {callType} = useSelector(state => state.callType);
@@ -28,8 +26,6 @@ const SideBar = ({setDashboardActive}) => {
   ]);
 
   const changeNavItem = v => {
-    time = new Date().getTime();
-
     setActive(v);
     if (v === 1) {
       dispatch(setCallType('marketVisitCall'));
@@ -44,9 +40,7 @@ const SideBar = ({setDashboardActive}) => {
     }
   };
 
-  useEffect(() => {
-    console.log(new Date().getTime() - time);
-  }, [callType]);
+  useEffect(() => {}, [callType]);
 
   return (
     <View className="h-full w-full bg-gray-800">
