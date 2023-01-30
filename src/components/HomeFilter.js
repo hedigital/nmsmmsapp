@@ -1,20 +1,23 @@
 /* eslint-disable prettier/prettier */
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  TextInput,
-  Pressable,
-} from 'react-native';
+import {View, Text, Image, TextInput, Pressable} from 'react-native';
 import React, {useState} from 'react';
 import DropDown from './DropDown';
 import CalenderComponent from './Calender';
 import CustomDropDown from './CustomDropDown';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  setCmName,
+  setEndDate,
+  setLocationCorrect,
+  setOutletCode,
+  setPoint,
+  setStartDate,
+  setStatus,
+} from '../redux/features/FilterSlice';
 
 const HomeFilter = () => {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
+  const [openCmModal, setOpenCmModal] = useState(false);
   const [items, setItems] = useState([
     {label: 'Apple', value: 'apple'},
     {label: 'Android', value: 'android'},
@@ -37,16 +40,82 @@ const HomeFilter = () => {
     {label: 'o', value: 'o'},
   ]);
 
-  //   date selection
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  // point: '',
+  // cmName: '',
+  // startDate: '',
+  // endDate: '',
+  // isLocationCorrect: '',
+  // status: '',
+  // outletCode: '',
+
+  const [cmList, setCmList] = useState([
+    {label: 'aa', value: 'aa'},
+    {label: 'll', value: 'll'},
+    {label: 'mm', value: 'mm'},
+    {label: 'nn', value: 'nn'},
+    {label: 'oo', value: 'oo'},
+  ]);
+
+  const dispatch = useDispatch();
+  const {
+    point,
+    cmName,
+    startDate,
+    endDate,
+    isLocationCorrect,
+    status,
+    outletCode,
+  } = useSelector(state => state.filter);
 
   //   custom dropdown content state
   const [locationExpand, setLocationExpand] = useState(false);
-  const [isLocationCorrect, setIsLocationCorrect] = useState('');
 
   const [statusExpand, setStatusExpand] = useState(false);
-  const [status, setStatus] = useState('');
+
+  // get point
+  const getPointVal = val => {
+    dispatch(setPoint(val()));
+  };
+
+  // get cm name
+  const getCmName = val => {
+    dispatch(setCmName(val()));
+  };
+
+  // get date and set redux store
+  const getDateStartDate = val => {
+    dispatch(setStartDate(val));
+  };
+  const getEndDate = val => {
+    dispatch(setEndDate(val));
+  };
+
+  // get location value
+  const getLocationVal = val => {
+    dispatch(setLocationCorrect(val));
+  };
+
+  // get status value
+  const getStatusVal = val => {
+    dispatch(setStatus(val));
+  };
+
+  // get outlet code
+  const getOutletCode = val => {
+    dispatch(setOutletCode(val));
+  };
+
+  const searchData = () => {
+    console.log(
+      point,
+      cmName,
+      startDate,
+      endDate,
+      isLocationCorrect,
+      status,
+      outletCode,
+    );
+  };
 
   return (
     <View className="space-y-2 bg-gray-400/10 p-2">
@@ -55,10 +124,10 @@ const HomeFilter = () => {
           <DropDown
             open={open}
             modalType="MODAL"
-            value={value}
+            value={point}
             items={items}
             setOpen={setOpen}
-            setValue={setValue}
+            setValue={getPointVal}
             setItems={setItems}
             placeholder="পয়েন্ট"
             search={true}
@@ -67,13 +136,13 @@ const HomeFilter = () => {
 
         <View className="basis-[24%]">
           <DropDown
-            open={open}
+            open={openCmModal}
             modalType="MODAL"
-            value={value}
-            items={items}
-            setOpen={setOpen}
-            setValue={setValue}
-            setItems={setItems}
+            value={cmName}
+            items={cmList}
+            setOpen={setOpenCmModal}
+            setValue={getCmName}
+            setItems={cmList}
             placeholder="সি এম নেম"
             search={true}
           />
@@ -83,7 +152,7 @@ const HomeFilter = () => {
           <CalenderComponent
             placeholder={startDate ? startDate : 'শুরু তারিখ'}
             date={startDate}
-            setDate={setStartDate}
+            setDate={getDateStartDate}
           />
         </View>
 
@@ -91,7 +160,7 @@ const HomeFilter = () => {
           <CalenderComponent
             placeholder={endDate ? endDate : 'শেষ তারিখ'}
             date={endDate}
-            setDate={setEndDate}
+            setDate={getEndDate}
           />
         </View>
       </View>
@@ -100,7 +169,7 @@ const HomeFilter = () => {
         <View className="basis-[24%]">
           <CustomDropDown
             placeholder={isLocationCorrect || 'লোকেশন সঠিক?'}
-            setValue={setIsLocationCorrect}
+            setValue={getLocationVal}
             visible={locationExpand}
             setVisible={setLocationExpand}
           />
@@ -109,7 +178,7 @@ const HomeFilter = () => {
         <View className="basis-[24%]">
           <CustomDropDown
             placeholder={status || 'স্ট্যাটাস'}
-            setValue={setStatus}
+            setValue={getStatusVal}
             visible={statusExpand}
             setVisible={setStatusExpand}
           />
@@ -117,6 +186,7 @@ const HomeFilter = () => {
 
         <View className="basis-[24%]">
           <TextInput
+            onChangeText={getOutletCode}
             placeholderTextColor="#374151"
             className="border px-3 border-gray-500 rounded-lg text-gray-700  bg-white"
             placeholder="Outlet Code"
@@ -125,6 +195,7 @@ const HomeFilter = () => {
 
         <View className="basis-[24%]">
           <Pressable
+            onPress={searchData}
             className="bg-yellow-500 rounded-lg px-3 h-[50px] items-center justify-center"
             android_ripple={{color: '#ca8a04', borderless: false}}>
             <View className="flex-row w-full justify-center items-center">
