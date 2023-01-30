@@ -18,20 +18,32 @@ import PmmMaintenance from './PmmMaintenance';
 import DropDown from './DropDown';
 import {useSelector, useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
+import {
+  setIsLocationCorrect,
+  setMaintenanceDataRight,
+  setOpportunityDataRight,
+  setPresenceDataRight,
+} from '../redux/features/callTypeSlice';
 
 const SurveyItems = () => {
+  // image modal visible and image url state
   const [imageModalVisible, setImageModalVisible] = useState(false);
   const [modalImageUrl, setModalImageUrl] = useState('');
 
   const navigate = useNavigation();
-
   const dispatch = useDispatch();
 
-  // redux store data
-  const {callType} = useSelector(state => state.callType);
+  // call type and information slice data
+  const {
+    callType,
+    isLocationCorrect,
+    presenceDataRight,
+    opportunityDataRight,
+    maintenanceDataRight,
+  } = useSelector(state => state.callType);
 
+  // expand survey information and conditional render
   const [expandContent, setExpandContent] = useState('');
-
   function renderItem(str) {
     let content;
     if (str === 'presence') {
@@ -46,28 +58,43 @@ const SurveyItems = () => {
     return content;
   }
 
-  // evaluation modal
+  // evaluation main modal
   const [visibleEvaluationModal, setVisibleEvaluationModal] = useState(false);
 
+  // location is correct dropdown visible state
   const [locationCorrectDropdownOpen, setLocationCorrectDropdownOpen] =
     useState(false);
+  // presence data is correct dropdown visible state
   const [presenceCorrectDropdownOpen, setPresenceCorrectDropdownOpen] =
     useState(false);
+  // opportunity data is correct dropdown visible state
   const [
     opportunityCorrectCorrectDropdownOpen,
     setOpportunityCorrectCorrectDropdownOpen,
   ] = useState(false);
+  // maintenance data is correct dropdown visible state
   const [maintenanceCorrectDropdownOpen, setMaintenanceCorrectDropdownOpen] =
     useState(false);
 
-  const [locationCorrectItems, setLocationCorrectItems] = useState([
-    {label: 'Yes', value: 'yes'},
-    {label: 'No', value: 'no'},
+  // dropdown value
+  const [dropdownItems, setDropdownItems] = useState([
+    {label: 'Yes', value: 'Yes'},
+    {label: 'No', value: 'No'},
   ]);
-  const [isLocationCorrect, setIsLocationCorrect] = useState(null);
-  const [isPresenceCorrect, setIsPresenceCorrect] = useState(null);
-  const [isOpportunityCorrect, setIsOpportunityCorrect] = useState(null);
-  const [isMaintenanceCorrect, setIsMaintenanceCorrect] = useState(null);
+
+  // get dropdown value and save redux store
+  const getLocationCorrect = e => {
+    dispatch(setIsLocationCorrect(e()));
+  };
+  const getOpportunityCorrect = e => {
+    dispatch(setOpportunityDataRight(e()));
+  };
+  const getPresenceCorrect = e => {
+    dispatch(setPresenceDataRight(e()));
+  };
+  const getMaintenanceCorrect = e => {
+    dispatch(setMaintenanceDataRight(e()));
+  };
 
   return (
     <View className="bg-white rounded p-1 mb-1">
@@ -93,9 +120,9 @@ const SurveyItems = () => {
                   <DropDown
                     open={locationCorrectDropdownOpen}
                     value={isLocationCorrect}
-                    items={locationCorrectItems}
-                    setItems={setLocationCorrectItems}
-                    setValue={setIsLocationCorrect}
+                    items={dropdownItems}
+                    setItems={setDropdownItems}
+                    setValue={getLocationCorrect}
                     placeholder="Select"
                     setOpen={setLocationCorrectDropdownOpen}
                     modalType="SCROLLVIEW"
@@ -112,10 +139,10 @@ const SurveyItems = () => {
                 </Text>
                 <DropDown
                   open={presenceCorrectDropdownOpen}
-                  value={isPresenceCorrect}
-                  items={locationCorrectItems}
-                  setItems={setLocationCorrectItems}
-                  setValue={setIsPresenceCorrect}
+                  value={presenceDataRight}
+                  items={dropdownItems}
+                  setItems={setDropdownItems}
+                  setValue={getPresenceCorrect}
                   placeholder="Select"
                   setOpen={setPresenceCorrectDropdownOpen}
                   modalType="SCROLLVIEW"
@@ -131,10 +158,10 @@ const SurveyItems = () => {
                 </Text>
                 <DropDown
                   open={opportunityCorrectCorrectDropdownOpen}
-                  value={isOpportunityCorrect}
-                  items={locationCorrectItems}
-                  setItems={setLocationCorrectItems}
-                  setValue={setIsOpportunityCorrect}
+                  value={opportunityDataRight}
+                  items={dropdownItems}
+                  setItems={setDropdownItems}
+                  setValue={getOpportunityCorrect}
                   placeholder="Select"
                   setOpen={setOpportunityCorrectCorrectDropdownOpen}
                   modalType="SCROLLVIEW"
@@ -148,10 +175,10 @@ const SurveyItems = () => {
                 </Text>
                 <DropDown
                   open={maintenanceCorrectDropdownOpen}
-                  value={isMaintenanceCorrect}
-                  items={locationCorrectItems}
-                  setItems={setLocationCorrectItems}
-                  setValue={setIsMaintenanceCorrect}
+                  value={maintenanceDataRight}
+                  items={dropdownItems}
+                  setItems={setDropdownItems}
+                  setValue={getMaintenanceCorrect}
                   placeholder="Select"
                   setOpen={setMaintenanceCorrectDropdownOpen}
                   modalType="SCROLLVIEW"
@@ -194,7 +221,6 @@ const SurveyItems = () => {
       {/* evaluation modal end */}
 
       {/* image view modal start */}
-      {/* image view modal end */}
       <Modal
         visible={imageModalVisible}
         transparent
@@ -468,12 +494,7 @@ const SurveyItems = () => {
           </View>
         </Pressable>
       </View>
-      <View className="">
-        {renderItem(expandContent)}
-        {/* <MerchandisingPresence /> */}
-        {/* <MerchandisingOpportunity /> */}
-        {/* <PmmMaintenance /> */}
-      </View>
+      <View className="">{renderItem(expandContent)}</View>
     </View>
   );
 };
