@@ -8,6 +8,22 @@ import {Image, StatusBar, TouchableOpacity, View} from 'react-native';
 import Home from '../screens/Home';
 import Dashboard from '../components/Dashboard';
 import Edit from '../screens/Edit';
+import axios from 'axios';
+
+export let instance = axios.create({
+  baseURL: 'https://api.hedigital.app/api/',
+  maxContentLength: Infinity,
+  maxBodyLength: Infinity,
+});
+
+export const setAxiosInstance = token => {
+  instance = axios.create({
+    baseURL: 'https://api.hedigital.app/api/',
+    maxContentLength: Infinity,
+    maxBodyLength: Infinity,
+    headers: {Authorization: 'Bearer ' + token},
+  });
+};
 
 export default function RootStackNavigator() {
   const Stack = createNativeStackNavigator();
